@@ -24,14 +24,15 @@ namespace IDesktop_SME
 
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
-            lblData.Text = DateTime.Now.ToShortDateString();
-            lblHora.Text = DateTime.Now.ToLongTimeString();
+            //lblData.Text = DateTime.Now.ToShortDateString();
+            //lblHora.Text = DateTime.Now.ToShortTimeString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            DateTime dt = new DateTime();
-            
+            //DateTime dt = new DateTime();
+            lblData.Text = DateTime.Now.ToShortDateString();
+            lblHora.Text = DateTime.Now.ToLongTimeString();
         }
     }
 }
