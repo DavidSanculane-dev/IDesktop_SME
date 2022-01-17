@@ -9,12 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
+using AForge.Video;
+using AForge.Video.DirectShow;
 
 namespace IDesktop_SME
 {
     public partial class frmPrincipal : Form
     {
         public ChromiumWebBrowser browser;
+
+        FilterInfoCollection filterInfoCollection;
+        VideoCaptureDevice videoCaptureDevice;
+
+        
 
         public void IniciarNavegador()
         {
@@ -24,12 +31,31 @@ namespace IDesktop_SME
             browser.Dock = DockStyle.Fill;
         }
 
+        private void SelecionarCamera()
+        {
 
+            filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            foreach (FilterInfo Device in filterInfoCollection)
+                cboCamera.Items.Add(Device.Name);
+            cboCamera.SelectedIndex = 0;
+            videoCaptureDevice = new VideoCaptureDevice();
+        }
+
+        private void IniciarCamera()
+        {
+            videoCaptureDevice = new VideoCaptureDevice(filterInfoCollection[cboCamera.SelectedIndex].MonikerString);
+            videoCaptureDevice.NewFrame += FinalFrame_NewFrame;
+            videoCaptureDevice.Start();
+        }
+        private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            picCamera.Image = (Bitmap)eventArgs.Frame.Clone();
+        }
 
         public frmPrincipal()
         {
             InitializeComponent();
-            IniciarNavegador();
+            
         }
 
         private void btClose_Click(object sender, EventArgs e)
@@ -39,7 +65,9 @@ namespace IDesktop_SME
 
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
-            
+            IniciarNavegador();
+            SelecionarCamera();
+            IniciarCamera();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -48,6 +76,23 @@ namespace IDesktop_SME
             //blData.Text = DateTime.Now.ToShortDateString();
             lblHora.ForeColor = Color.White;
             lblHora.Text = DateTime.Now.ToLongTimeString() + " <> " + DateTime.Now.ToShortDateString();
+        }
+
+        private void frmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (videoCaptureDevice.IsRunning == true)
+                videoCaptureDevice.Stop();
+        }
+
+        private void btInfo_Click(object sender, EventArgs e)
+        {
+            frmAjuda ajuda = new frmAjuda();
+            ajuda.ShowDialog();
+        }
+
+        private void btKeyboard_Click(object sender, EventArgs e)
+        {
+            //System.Diagnostics.Process.Start("osk.exe");
         }
     }
 }
