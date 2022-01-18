@@ -11,6 +11,8 @@ using CefSharp;
 using CefSharp.WinForms;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace IDesktop_SME
 {
@@ -21,7 +23,10 @@ namespace IDesktop_SME
         FilterInfoCollection filterInfoCollection;
         VideoCaptureDevice videoCaptureDevice;
 
-        
+        [System.Runtime.InteropServices.DllImport("kernel32")]
+        static extern bool Wow64DisableWow64FsRedirection(long oldvalue);
+        [System.Runtime.InteropServices.DllImport("kernel32")]
+        static extern bool Wow64EnableWow64FsRedirection(long oldvalue);
 
         public void IniciarNavegador()
         {
@@ -92,7 +97,20 @@ namespace IDesktop_SME
 
         private void btKeyboard_Click(object sender, EventArgs e)
         {
-            //System.Diagnostics.Process.Start("osk.exe");
+            Process.Start("osk.exe");
+          // long  old;
+          //if (Environment.Is64BitOperatingSystem)
+          // {
+          //     if (Wow64DisableWow64FsRedirection())
+          //     {
+          //         Process.Start("osk.exe");
+          //        Wow64EnableWow64FsRedirection(old);
+          //   }
+          // }
+          //else
+          //{
+          //     Process.Start("osk.exe");
+          // }
         }
     }
 }
