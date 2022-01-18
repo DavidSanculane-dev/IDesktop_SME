@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IDesktop_SME")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Interface desktop para sistema de prontidão")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HP Inc.")]
+[assembly: AssemblyCompany("David Sanculane")]
 [assembly: AssemblyProduct("IDesktop_SME")]
-[assembly: AssemblyCopyright("Copyright © HP Inc. 2022")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © David Sanuculane , 2022")]
+[assembly: AssemblyTrademark("David Sanculane")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
